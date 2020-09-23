@@ -12,4 +12,4 @@ My second idea is where the player plays as a samurai named Butterfingers. You m
 Everytime you swing your sword, you can't grip it tight enough and it flies away and becomes a bouncing projectile that can hurt the player or one of the enemies. You get a new sword everytime, but the more you swing your sword, the more deadly projectiles you create.
 My vision for this game is for it to evolve into a bullet-hell style of game as the player continues to kill enemies and increase their score.
 
-I can't stop thinking about my samurai sword game, so I have decided that that is the idea I am going to pursue further. My biggest challenge when creating this game is going to be playtesting enough to achieve the right level of balance between skill and challenge.
+I can't stop thinking about my samurai sword game, so I have decided that that is the idea I am going to pursue further. My biggest challenge when creating this game is going to be play-testing enough to achieve the right level of balance between skill and challenge.
