@@ -29,4 +29,4 @@ The game will be a 2D-side scrolling view but the map will be very small, maybe 
 The player will only be able to move around and swing their sword, although another mechanic I thought about adding was a directional shield that could be used to add more skill to the game. 
 I had thought about making enemies that can shoot, although I would make the projectiles slow and have it so that enemies can accidentally shoot themselves too.
 These are all extra things that can be added on to refine the game.
-At its core, this game will be about having timing and strategy for when to swing your sword and strike down the approaching wave of enemies.   
+At its core, this game will be about having the proper timing and strategy for when to swing your sword and strike down the approaching wave of enemies, emulating the cool experience of being a samurai!   
