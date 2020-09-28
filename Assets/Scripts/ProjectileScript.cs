@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour
@@ -8,6 +9,7 @@ public class ProjectileScript : MonoBehaviour
     public float               speed = 2f;
     public int direction;
     private Rigidbody2D        rb;
+    public GameObject          explosion;
     
     // Start is called before the first frame update
     void Start()
@@ -42,6 +44,7 @@ public class ProjectileScript : MonoBehaviour
         if (other.gameObject.tag == "enemy")
         {
             // award points
+            Instantiate(explosion, this.transform.position, quaternion.identity);
             Destroy(other.gameObject);
             Destroy(this.gameObject);
         }
