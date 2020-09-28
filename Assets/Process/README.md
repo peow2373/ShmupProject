@@ -29,4 +29,10 @@ The game will be a 2D-side scrolling view but the map will be very small, maybe 
 The player will only be able to move around and swing their sword, although another mechanic I thought about adding was a directional shield that could be used to add more skill to the game. 
 I had thought about making enemies that can shoot, although I would make the projectiles slow and have it so that enemies can accidentally shoot themselves too.
 These are all extra things that can be added on to refine the game.
-At its core, this game will be about having the proper timing and strategy for when to swing your sword and strike down the approaching wave of enemies, emulating the cool experience of being a samurai!   
+At its core, this game will be about having the proper timing and strategy for when to swing your sword and strike down the approaching wave of enemies, emulating the cool experience of being a samurai!
+
+My game will have a gameplay experience that is a similar mix to Super Crate Box and Nidhogg.
+Both of these games are high-octane, action filled games with an emphasis on the skill of the player.
+In Super Crate Box, the enemies are designed to be easy to kill but there's so many that you can easily be swarmed.
+In Nidhogg, there is precision to your hits, and your inputs have to be timed well to dodge the projectiles and the enemy coming at you.
+The combination of these two features is something along the lines of what I hope to achieve with my game, whose title is still to be determined.    
