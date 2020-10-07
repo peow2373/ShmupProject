@@ -35,4 +35,22 @@ My game will have a gameplay experience that is a similar mix to Super Crate Box
 Both of these games are high-octane, action filled games with an emphasis on the skill of the player.
 In Super Crate Box, the enemies are designed to be easy to kill but there's so many that you can easily be swarmed.
 In Nidhogg, there is precision to your hits, and your inputs have to be timed well to dodge the projectiles and the enemy coming at you.
-The combination of these two features is something along the lines of what I hope to achieve with my game, whose title is still to be determined.    
+The combination of these two features is something along the lines of what I hope to achieve with my game, whose title is still to be determined.   
+
+ # October 7, 2020
+ After having a classmate test my game, I got a lot of great feedback about what I could improve. 
+ Mainly, in its current state, the game doesn't feel very challenging. The enemies die quickly and aren't too much of a threat to the player.
+ I had originally planned on making this game similar to others in the sense that killing different enemies would award more points, and that the player would have 3 lives to achieve a high score. 
+ However, with the current lack of challenge for the player, I'm planning on dropping the player down to only one or two lives, to really increase the need to stay alive. 
+ This would make the game frustrating to pick up at the start because a new player would inevitably die within the first couple moves, but it would reward continued gameplay with a focus on perfecting the mechanics of the game.
+ To help emphasize this, enemy spawn rates will also increase with score, capping at a certain point so that the game does not become too overwhelmingly difficult. 
+ 
+ Currently, the sword launches out directly when the space bar is pressed, and the player does not swing the sword prior.
+ I had originally tried to tackle this code with animating the sprite during the swinging motion, but eventually decided to focus my time on other aspects of the game. 
+ My next big step is to implement that sword swinging mechanic. It would allow the player to kill multiple ninjas at once, and it would justify the launch of the sword at the end. 
+ Once that is complete, I will focus on enemy interactions with the bouncing sword, including leveling up enemies when they catch the sword, and awarding increased points for the sword hitting them in the back.
+ 
+ To further push the idea that this game is only as challenging as the player makes it, I was planning on adding combo multipliers to the score. 
+ My classmate had the brilliant suggestion of increasing the points awarded based on how many swords are currently on the screen, and I love that idea and will implement it.
+ To prevent players from quickly spamming the sword button to rack up points, I also will add a cooldown between swings, so that players are penalized for not swinging at the most appropriate times. 
+ These extra additions to the gameplay will hopefully give this game that satisfying, rewarding experience when the player beats their old high score, and while I still have a lot more work to do to get to that point, I am very excited to fully create what I have been envisioning.
