@@ -32,10 +32,9 @@ public class EnemyManagerScript : MonoBehaviour {
         //    }
         //}
         
-        Transform go = Instantiate(brick); 
-        go.transform.parent = this.transform;
-        Vector2 loc = new Vector2(xOrigin, yOrigin);
-        go.transform.position = loc;
+        float rate = UnityEngine.Random.Range(2f, 4f);
+        
+        InvokeRepeating("SpawnEnemies", 1.0f, rate);
     }
 
     void Update()
@@ -43,6 +42,14 @@ public class EnemyManagerScript : MonoBehaviour {
         // move side to side
         //float offset = Mathf.Sin(Time.time * speed) * amplitude / 2;
         //transform.position = new Vector2(offset,transform.position.y);
+    }
+
+    void SpawnEnemies()
+    {
+        Transform go = Instantiate(brick); 
+        go.transform.parent = this.transform;
+        Vector2 loc = new Vector2(UnityEngine.Random.Range(10.0f, -10.0f), UnityEngine.Random.Range(4.0f, 5.0f));
+        go.transform.position = loc;
     }
 
 }

@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 public class EnemyScript : MonoBehaviour
 {
     public GameObject enemyProjectile;
-    public GameObject player;
+    private GameObject player;
     private Rigidbody2D rb;
     private Vector2 movement;
     public float moveSpeed = 3f;
@@ -16,6 +16,7 @@ public class EnemyScript : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
+        player = GameObject.Find("Player");
         
         float delay = Random.Range(2f, 10f);
         float rate = Random.Range(2f, 8f);

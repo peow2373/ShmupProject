@@ -125,8 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyProjectile: {fileID: 8255175601869621239, guid: 91cd5d0899056b84894b56c6d15a2c30,
     type: 3}
-  player: {fileID: 2383120319681978090, guid: ef767e95305264743ad9545be6b3424b, type: 3}
-  moveSpeed: 3
+  moveSpeed: 5
 --- !u!50 &50083754083492202
 Rigidbody2D:
   serializedVersion: 4
