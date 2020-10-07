@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &8834220249112390513
+--- !u!1 &2383120319681978090
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,39 +8,38 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8834220249112390515}
-  - component: {fileID: 8834220249112390512}
-  - component: {fileID: 8834220249112390517}
-  - component: {fileID: 752324972339923433}
-  - component: {fileID: 8834220249112390514}
+  - component: {fileID: 2383120319681978095}
+  - component: {fileID: 2383120319681978088}
+  - component: {fileID: 2383120319681978089}
+  - component: {fileID: 2383120319681978094}
   m_Layer: 0
-  m_Name: Projectile
-  m_TagString: projectile
+  m_Name: Player
+  m_TagString: player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8834220249112390515
+--- !u!4 &2383120319681978095
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8834220249112390513}
+  m_GameObject: {fileID: 2383120319681978090}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -2, z: 0}
+  m_LocalPosition: {x: 0, y: -4, z: 0}
   m_LocalScale: {x: 0.75, y: 0.75, z: 0.75}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &8834220249112390512
+--- !u!212 &2383120319681978088
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8834220249112390513}
+  m_GameObject: {fileID: 2383120319681978090}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -74,81 +73,77 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 26fd9684e192f0242a20ebca509b6c18, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d63516772475cc4bb6557ac1b8ac324, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.375, y: 0.375}
+  m_Size: {x: 1, y: 0.25}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!50 &8834220249112390517
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8834220249112390513}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 0.01
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!61 &752324972339923433
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8834220249112390513}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 46150ed4d25db59458d559c8b661a708, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: -0.05, y: 0.05}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 4.5, y: 4.5}
-    newSize: {x: 0.375, y: 0.375}
-    adaptiveTilingThreshold: 0.5
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.2, y: 1}
-  m_EdgeRadius: 0
---- !u!114 &8834220249112390514
+--- !u!114 &2383120319681978089
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8834220249112390513}
+  m_GameObject: {fileID: 2383120319681978090}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 880b6da7c13f448cfaec063f909f4e18, type: 3}
+  m_Script: {fileID: 11500000, guid: 32f8d44c242cd4bf2b49ad9c51e3668c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 3
-  xDirection: 1
-  yDirection: -1
-  explosion: {fileID: 0}
-  minSpeed: 5
-  maxSpeed: 10
-  torque: 0.02
-  flipX: 0
+  speed: 0.02
+  leftWall: -8.5
+  rightWall: 8.25
+  topWall: 4
+  bottomWall: -4.25
+  health: 1
+  fireKey: 32
+  projectile: {fileID: 8834220249112390513, guid: fb60e14f7abd1124c9abeefb24a95d22,
+    type: 3}
+  healthBar: {fileID: 0}
+  walkArray:
+  - {fileID: 21300000, guid: f6da2b1c1953c624c8708697500d0e00, type: 3}
+  - {fileID: 21300000, guid: 370ff4e9ba0508a40883e4f4001f1cf4, type: 3}
+  - {fileID: 21300000, guid: cd6920871d743d94d8681c59b2821230, type: 3}
+  - {fileID: 21300000, guid: 5eab366bec0c2c849aa3949c16479b0c, type: 3}
+  - {fileID: 21300000, guid: 53dfe704a0e8aad4b94deb70e5225266, type: 3}
+  - {fileID: 21300000, guid: e52b21ebe2d71d243bdfcb289b297976, type: 3}
+  swingArray:
+  - {fileID: 21300000, guid: 480372a9161c5324d982089cfa28ed66, type: 3}
+  - {fileID: 21300000, guid: 1e0005d108e059042bd5713d4a48cf5b, type: 3}
+  - {fileID: 21300000, guid: 5ea5e92b74318f0458b4c232d58143b2, type: 3}
+  - {fileID: 21300000, guid: d13ca02efbb814849ababa895553ded9, type: 3}
+  - {fileID: 21300000, guid: 743d66f48e734004e82852c1732efec2, type: 3}
+  standing: {fileID: 21300000, guid: 4d63516772475cc4bb6557ac1b8ac324, type: 3}
+  frameRate: 0.125
+--- !u!61 &2383120319681978094
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2383120319681978090}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.2, y: 0.1}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4.5, y: 4.5}
+    newSize: {x: 1, y: 0.25}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 2.1, y: 1.65}
+  m_EdgeRadius: 0

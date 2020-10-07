@@ -17,27 +17,32 @@ public class EnemyManagerScript : MonoBehaviour {
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < numColumns; j++) {
-                Transform go = Instantiate(brick);
-                go.transform.parent = this.transform;
+        //for (int i = 0; i < numRows; i++) {
+        //    for (int j = 0; j < numColumns; j++) {
+        //        Transform go = Instantiate(brick);
+        //        go.transform.parent = this.transform;
+        //        
+        //        Vector2 loc = new Vector2(xOrigin + (i * xSpacing), yOrigin - (j * ySpacing));
+        //        go.transform.position = loc;
+        //
+        //        Color          c  = brickColors[j];
+        //        SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
+        //        sr.color = c;
                 
-                Vector2 loc = new Vector2(xOrigin + (i * xSpacing), yOrigin - (j * ySpacing));
-                go.transform.position = loc;
-
-                Color          c  = brickColors[j];
-                SpriteRenderer sr = go.GetComponent<SpriteRenderer>();
-                sr.color = c;
-                
-            }
-        }
+        //    }
+        //}
+        
+        Transform go = Instantiate(brick); 
+        go.transform.parent = this.transform;
+        Vector2 loc = new Vector2(xOrigin, yOrigin);
+        go.transform.position = loc;
     }
 
     void Update()
     {
         // move side to side
-        float offset = Mathf.Sin(Time.time * speed) * amplitude / 2;
-        transform.position = new Vector2(offset,transform.position.y);
+        //float offset = Mathf.Sin(Time.time * speed) * amplitude / 2;
+        //transform.position = new Vector2(offset,transform.position.y);
     }
 
 }

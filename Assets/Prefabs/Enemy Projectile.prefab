@@ -135,4 +135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  direction: -1
+  xDirection: 0
+  yDirection: -1
+  explosion: {fileID: 0}
+  swordArray: []
