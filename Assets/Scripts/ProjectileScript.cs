@@ -15,6 +15,8 @@ public class ProjectileScript : MonoBehaviour
 
     public bool flipX;
     private SpriteRenderer spriteRenderer;
+
+    private float time;
     
     // Start is called before the first frame update
     void Start()
@@ -23,6 +25,8 @@ public class ProjectileScript : MonoBehaviour
         flipX = PlayerScript.flipped;
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         torque = UnityEngine.Random.Range(0.0f, 0.5f);
+        if (!flipX) transform.position = new Vector2(transform.position.x + 0.823f, transform.position.y - 0.87f);
+        if (flipX) transform.position = new Vector2(transform.position.x - 0.823f, transform.position.y - 0.87f);
         StartCoroutine("Launch");
     }
 
@@ -31,7 +35,9 @@ public class ProjectileScript : MonoBehaviour
         
     }
     
-    private IEnumerator Launch() {
+    private IEnumerator Launch()
+    {
+        time = Time.time;
         
         if (flipX)
         {
@@ -49,11 +55,17 @@ public class ProjectileScript : MonoBehaviour
         yield return null;
     }
 
-    // enemy projectile
+    // while player is swinging
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "enemy")
+        if (other.gameObject.tag == "player")
         {
+            if (Time.time - time > 15.0f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x * -1.1f, rb.velocity.y);
+                //rb.angularVelocity *= -1.1f;
+                Debug.Log("blocked!");
+            }
             return;
         }
 
@@ -63,20 +75,35 @@ public class ProjectileScript : MonoBehaviour
         }
     }
 
-    // player projectile
+    // while player isn't swinging
     private void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.tag == "enemy")
         {
             // award points
             //Instantiate(explosion, this.transform.position, quaternion.identity);
+            Debug.Log("enemy slain!");
             Destroy(other.gameObject);
             Destroy(this.gameObject);
+        }
+        
+        if (other.gameObject.tag == "player")
+        {
+            Destroy(this.gameObject);
+            Debug.Log("ouch!");
         }
         
         if (other.gameObject.tag == "wall")
         {
             SpeedCheck();
+        }
+        
+        if (other.gameObject.tag == "projectile")
+        {    
+            if (Time.time - time < 5.0f)
+            {
+                Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            }
         }
     }
     
@@ -92,7 +119,5 @@ public class ProjectileScript : MonoBehaviour
             // shorthand to check for existing direction
             rb.velocity = new Vector2(rb.velocity.x, (rb.velocity.y < 0) ? -minSpeed : minSpeed);
         }
-        
-        Debug.Log(rb.velocity);
     }
 }

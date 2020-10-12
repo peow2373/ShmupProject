@@ -50,4 +50,22 @@ public class EnemyScript : MonoBehaviour
     {
         rb.MovePosition((Vector2)transform.position + (direction * moveSpeed * Time.deltaTime));
     }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.tag == "player")
+        {
+            Destroy(this.gameObject);
+            Debug.Log("enemy slain!");
+        }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.tag == "player")
+        {
+            Destroy(this.gameObject);
+            Debug.Log("ouch!");
+        }
+    }
 }
