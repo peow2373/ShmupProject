@@ -12,6 +12,7 @@ TagManager:
   - enemy
   - enemy projectile
   - sword enemy
+  - player sword
   layers:
   - Default
   - TransparentFX

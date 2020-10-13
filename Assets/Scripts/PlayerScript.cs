@@ -49,6 +49,7 @@ public class PlayerScript : MonoBehaviour {
     void Start() {
         //healthBar.fillAmount = health;
         healthBar.fillAmount = 0;
+        swordCollider.enabled = false;
     }
 
     // Update is called once per frame
@@ -246,6 +247,19 @@ public class PlayerScript : MonoBehaviour {
 
         SwingSword();
 
+        if (charging)
+        {
+            speed = 0.02f;
+            boxCollider.size = new Vector2(1.8f,1.65f);
+            boxCollider.offset = new Vector2(0.1f, 0.1f);
+        }
+        else
+        {
+            speed = 0.03f;
+            boxCollider.size = new Vector2(1.4f,1.6f);
+            boxCollider.offset = new Vector2(0.2f, 0.1f);
+        }
+
         transform.localPosition = new Vector3(xPos, yPos, 0);
     }
 
@@ -267,6 +281,7 @@ public class PlayerScript : MonoBehaviour {
             float standardTime = frameRate * 0.4f;
             boxCollider.isTrigger = true;
             swordCollider.enabled = true;
+            swordCollider.isTrigger = true;
 
             if (timeDiff >= standardTime)
             {
@@ -297,7 +312,8 @@ public class PlayerScript : MonoBehaviour {
                 if (swordFire)
                 {
                     // launch sword
-                    Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
+                    if (flipped) Instantiate(projectile, new Vector2(transform.position.x - 0.823f, transform.position.y + 0.5f - 0.87f), Quaternion.identity);
+                    if (!flipped) Instantiate(projectile, new Vector2(transform.position.x + 0.823f, transform.position.y + 0.5f - 0.87f), Quaternion.identity);
                     swordFire = false;
                 }
             }
@@ -314,6 +330,7 @@ public class PlayerScript : MonoBehaviour {
                 spriteRenderer.sprite = standing;
                 boxCollider.isTrigger = false;
                 swordCollider.enabled = false;
+                swordCollider.isTrigger = false;
                 //boxCollider.size = new Vector2(2.1f,1.65f);
                 //boxCollider.offset = new Vector2(0.2f, 0.1f);
                 swinging = false;

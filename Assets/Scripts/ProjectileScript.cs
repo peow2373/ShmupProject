@@ -9,6 +9,7 @@ public class ProjectileScript : MonoBehaviour
     public float               speed = 2f;
     public int xDirection, yDirection;
     private Rigidbody2D        rb;
+    private BoxCollider2D bc;
     public GameObject          explosion;
 
     public float minSpeed, maxSpeed, torque;
@@ -17,22 +18,28 @@ public class ProjectileScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private float time;
-    
+    private bool temp = true;
+
+    public GameObject projectile;
+    public Vector2 loc;
+
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        bc = GetComponent<BoxCollider2D>();
         flipX = PlayerScript.flipped;
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-        torque = UnityEngine.Random.Range(0.0f, 0.5f);
-        if (!flipX) transform.position = new Vector2(transform.position.x + 0.823f, transform.position.y - 0.87f);
-        if (flipX) transform.position = new Vector2(transform.position.x - 0.823f, transform.position.y - 0.87f);
+        torque = UnityEngine.Random.Range(-0.8f, -0.5f);
         StartCoroutine("Launch");
     }
 
     void Update()
     {
-        
+        if (temp)
+        {
+            loc = new Vector2(this.transform.position.x, this.transform.position.y);
+        }
     }
     
     private IEnumerator Launch()
@@ -58,7 +65,7 @@ public class ProjectileScript : MonoBehaviour
     // while player is swinging
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "player")
+        if (other.gameObject.tag == "player" || other.gameObject.tag == "player sword")
         {
             if (Time.time - time > 0.5f)
             {
@@ -78,13 +85,34 @@ public class ProjectileScript : MonoBehaviour
     // while player isn't swinging
     private void OnCollisionEnter2D(Collision2D other)
     {
+        temp = false;
+        
         if (other.gameObject.tag == "enemy")
         {
+            this.GetComponent<Renderer>().enabled = false;
+
             // award points
-            //Instantiate(explosion, this.transform.position, quaternion.identity);
-            Debug.Log("enemy slain!");
-            Destroy(other.gameObject);
-            Destroy(this.gameObject);
+            if (Time.time - time < 0.025f)
+            {
+                Debug.Log("enemy slain!");
+                Destroy(this.gameObject);
+                Destroy(other.gameObject);
+                Instantiate(projectile, loc, Quaternion.identity);
+            }
+            else if (Time.time - time >= 0.025f && Time.time - time < 0.15f)
+            {
+                Debug.Log("enemy slain!");
+                Destroy(this.gameObject);
+                Destroy(other.gameObject);
+                Instantiate(projectile, loc, Quaternion.identity);
+            }
+            else
+            {
+                //bc.sharedMaterial = bouncy;
+                Debug.Log("enemy slain!");
+                Destroy(other.gameObject);
+                Destroy(this.gameObject);
+            }
         }
         
         if (other.gameObject.tag == "player")
@@ -98,6 +126,11 @@ public class ProjectileScript : MonoBehaviour
             {
                 return;
             }
+        }
+        
+        if (other.gameObject.tag == "player sword")
+        {
+            return;
         }
         
         if (other.gameObject.tag == "wall")
