@@ -60,7 +60,7 @@ public class ProjectileScript : MonoBehaviour
     {
         if (other.gameObject.tag == "player")
         {
-            if (Time.time - time > 15.0f)
+            if (Time.time - time > 0.5f)
             {
                 rb.velocity = new Vector2(rb.velocity.x * -1.1f, rb.velocity.y);
                 //rb.angularVelocity *= -1.1f;
@@ -89,8 +89,15 @@ public class ProjectileScript : MonoBehaviour
         
         if (other.gameObject.tag == "player")
         {
-            Destroy(this.gameObject);
-            Debug.Log("ouch!");
+            if (Time.time - time > 0.5f)
+            {
+                Destroy(this.gameObject);
+                Debug.Log("ouch!");
+            }
+            else
+            {
+                return;
+            }
         }
         
         if (other.gameObject.tag == "wall")

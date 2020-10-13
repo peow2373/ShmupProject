@@ -34,12 +34,15 @@ public class PlayerScript : MonoBehaviour {
     private bool swingingSword = false;
     private bool charging = false;
 
-    public BoxCollider2D boxCollider;
+    private BoxCollider2D boxCollider;
+    public GameObject sword;
+    private CircleCollider2D swordCollider;
 
     void Awake()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
         boxCollider = GetComponent<BoxCollider2D>();
+        swordCollider = sword.GetComponent<CircleCollider2D>();
     }
     
     // Start is called before the first frame update
@@ -55,11 +58,11 @@ public class PlayerScript : MonoBehaviour {
         timer += Time.deltaTime;
 
         // player flipped?
-        if (spriteRenderer.flipX) {
-            flipped = true;
-        } else {
-            flipped = false;
-        }
+        //if (spriteRenderer.flipX) {
+        //    flipped = true;
+        //} else {
+        //    flipped = false;
+        //}
         
         SamuraiCharge();
 
@@ -77,13 +80,15 @@ public class PlayerScript : MonoBehaviour {
                         if (charging)
                         {
                             currentFrame = (currentFrame + 1) % chargeArray.Length;
-                            spriteRenderer.flipX = true;
+                            transform.rotation = new Quaternion(0, 180, 0,0);
+                            flipped = true;
                             spriteRenderer.sprite = chargeArray[currentFrame];
                         }
                         else
                         {
                             currentFrame = (currentFrame + 1) % walkArray.Length;
-                            spriteRenderer.flipX = true;
+                            transform.rotation = new Quaternion(0, 180, 0,0);
+                            flipped = true;
                             spriteRenderer.sprite = walkArray[currentFrame];
                         }
                     }
@@ -91,7 +96,8 @@ public class PlayerScript : MonoBehaviour {
             }
             
             if (Input.GetKeyUp(KeyCode.LeftArrow)) {
-                spriteRenderer.flipX = true;
+                transform.rotation = new Quaternion(0, 180, 0,0);
+                flipped = true;
                 SamuraiCharge();
                 if (charging)
                 {
@@ -115,13 +121,15 @@ public class PlayerScript : MonoBehaviour {
                         if (charging)
                         {
                             currentFrame = (currentFrame + 1) % chargeArray.Length;
-                            spriteRenderer.flipX = false;
+                            transform.rotation = new Quaternion(0, 0, 0,0);
+                            flipped = false;
                             spriteRenderer.sprite = chargeArray[currentFrame];
                         }
                         else
                         {
                             currentFrame = (currentFrame + 1) % walkArray.Length;
-                            spriteRenderer.flipX = false;
+                            transform.rotation = new Quaternion(0, 0, 0,0);
+                            flipped = false;
                             spriteRenderer.sprite = walkArray[currentFrame];
                         }
                     }
@@ -129,7 +137,8 @@ public class PlayerScript : MonoBehaviour {
             }
             
             if (Input.GetKeyUp(KeyCode.RightArrow)) {
-                spriteRenderer.flipX = false;
+                transform.rotation = new Quaternion(0, 0, 0,0);
+                flipped = false;
                 SamuraiCharge();
                 if (charging)
                 {
@@ -257,29 +266,30 @@ public class PlayerScript : MonoBehaviour {
             float timeDiff = Time.time - swingTime;
             float standardTime = frameRate * 0.4f;
             boxCollider.isTrigger = true;
+            swordCollider.enabled = true;
 
             if (timeDiff >= standardTime)
             {
                 spriteRenderer.sprite = swingArray[1];
-                boxCollider.size = new Vector2(boxCollider.size.x,2.6f);
-                boxCollider.offset = new Vector2(boxCollider.offset.x,0.4f);
+                //boxCollider.size = new Vector2(boxCollider.size.x,2.6f);
+                //boxCollider.offset = new Vector2(boxCollider.offset.x,0.4f);
             }
             if (timeDiff >= standardTime * 2)
             {
                 spriteRenderer.sprite = swingArray[2];
-                boxCollider.size = new Vector2(3.0f,2.6f);
-                boxCollider.offset = new Vector2(0.5f,0.4f);
+                //boxCollider.size = new Vector2(3.0f,2.6f);
+                //boxCollider.offset = new Vector2(0.5f,0.4f);
             }
             if (timeDiff >= standardTime * 3)
             {
                 spriteRenderer.sprite = swingArray[3];
-                boxCollider.size = new Vector2(3.4f,2.3f);
-                boxCollider.offset = new Vector2(0.6f,0.3f);
+                //boxCollider.size = new Vector2(3.4f,2.3f);
+                //boxCollider.offset = new Vector2(0.6f,0.3f);
             }
             if (timeDiff >= standardTime * 4)
             {
-                boxCollider.size = new Vector2(3.6f,2.4f);
-                boxCollider.offset = new Vector2(0.6f,0.0f);
+                //boxCollider.size = new Vector2(3.6f,2.4f);
+                //boxCollider.offset = new Vector2(0.6f,0.0f);
                 spriteRenderer.sprite = swingArray[4];
             }
             if (timeDiff >= standardTime * 4.75)
@@ -287,7 +297,7 @@ public class PlayerScript : MonoBehaviour {
                 if (swordFire)
                 {
                     // launch sword
-                    //Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
+                    Instantiate(projectile, new Vector2(transform.position.x, transform.position.y + 0.5f), Quaternion.identity);
                     swordFire = false;
                 }
             }
@@ -303,8 +313,9 @@ public class PlayerScript : MonoBehaviour {
             {
                 spriteRenderer.sprite = standing;
                 boxCollider.isTrigger = false;
-                boxCollider.size = new Vector2(2.1f,1.65f);
-                boxCollider.offset = new Vector2(0.2f, 0.1f);
+                swordCollider.enabled = false;
+                //boxCollider.size = new Vector2(2.1f,1.65f);
+                //boxCollider.offset = new Vector2(0.2f, 0.1f);
                 swinging = false;
             }
         }
