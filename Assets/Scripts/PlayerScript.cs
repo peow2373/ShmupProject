@@ -279,32 +279,24 @@ public class PlayerScript : MonoBehaviour {
         {
             float timeDiff = Time.time - swingTime;
             float standardTime = frameRate * 0.4f;
-            boxCollider.isTrigger = true;
-            swordCollider.enabled = true;
-            swordCollider.isTrigger = true;
 
             if (timeDiff >= standardTime)
             {
                 spriteRenderer.sprite = swingArray[1];
-                //boxCollider.size = new Vector2(boxCollider.size.x,2.6f);
-                //boxCollider.offset = new Vector2(boxCollider.offset.x,0.4f);
             }
             if (timeDiff >= standardTime * 2)
             {
                 spriteRenderer.sprite = swingArray[2];
-                //boxCollider.size = new Vector2(3.0f,2.6f);
-                //boxCollider.offset = new Vector2(0.5f,0.4f);
             }
             if (timeDiff >= standardTime * 3)
             {
+                boxCollider.isTrigger = true;
+                swordCollider.enabled = true;
+                swordCollider.isTrigger = true;
                 spriteRenderer.sprite = swingArray[3];
-                //boxCollider.size = new Vector2(3.4f,2.3f);
-                //boxCollider.offset = new Vector2(0.6f,0.3f);
             }
             if (timeDiff >= standardTime * 4)
             {
-                //boxCollider.size = new Vector2(3.6f,2.4f);
-                //boxCollider.offset = new Vector2(0.6f,0.0f);
                 spriteRenderer.sprite = swingArray[4];
             }
             if (timeDiff >= standardTime * 4.75)
