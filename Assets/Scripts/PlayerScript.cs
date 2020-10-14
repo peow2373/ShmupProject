@@ -23,7 +23,7 @@ public class PlayerScript : MonoBehaviour {
     private int currentFrame;
     private int frame;
     private float timer;
-    public float frameRate = 0.1f;
+    public float frameRate = 1f;
 
     public static bool flipped;
     public static bool swinging = false;
@@ -39,6 +39,7 @@ public class PlayerScript : MonoBehaviour {
 
     private float timed = 0;
     private bool ignoreInput = false;
+    public Animator animator;
 
     void Awake()
     {
@@ -56,7 +57,7 @@ public class PlayerScript : MonoBehaviour {
     void Update() {
         
         // animation
-        timer += Time.deltaTime;
+        //timer += Time.deltaTime;
 
         // player flipped?
         //if (spriteRenderer.flipX) {
@@ -75,25 +76,20 @@ public class PlayerScript : MonoBehaviour {
                 if (Input.GetKey(KeyCode.LeftArrow)) {
                     if (xPos > leftWall) {
                         xPos -= speed;
-                    
-                        if (timer >= frameRate)
+                        animator.SetBool("isAnimated", true);
+                        
+                        SamuraiCharge();
+                        if (charging)
                         {
-                            timer -= frameRate;
-                            SamuraiCharge();
-                            if (charging)
-                            {
-                                currentFrame = (currentFrame + 1) % chargeArray.Length;
-                                transform.rotation = new Quaternion(0, 180, 0,0);
-                                flipped = true;
-                                spriteRenderer.sprite = chargeArray[currentFrame];
-                            }
-                            else
-                            {
-                                currentFrame = (currentFrame + 1) % walkArray.Length;
-                                transform.rotation = new Quaternion(0, 180, 0,0);
-                                flipped = true;
-                                spriteRenderer.sprite = walkArray[currentFrame];
-                            }
+                            animator.SetBool("isCharged", true);
+                            transform.rotation = new Quaternion(0, 180, 0,0);
+                            flipped = true;
+                        }
+                        else
+                        {
+                            animator.SetBool("isCharged", false);
+                            transform.rotation = new Quaternion(0, 180, 0,0);
+                            flipped = true;
                         }
                     }
                 }
@@ -102,6 +98,7 @@ public class PlayerScript : MonoBehaviour {
                     transform.rotation = new Quaternion(0, 180, 0,0);
                     flipped = true;
                     SamuraiCharge();
+                    animator.SetBool("isAnimated", false);
                     if (charging)
                     {
                         spriteRenderer.sprite = swingArray[0];
@@ -116,25 +113,20 @@ public class PlayerScript : MonoBehaviour {
                 if (Input.GetKey(KeyCode.RightArrow)) {
                     if (xPos < rightWall) {
                         xPos += speed;
+                        animator.SetBool("isAnimated", true);
                     
-                        if (timer >= frameRate)
+                        SamuraiCharge();
+                        if (charging)
                         {
-                            timer -= frameRate;
-                            SamuraiCharge();
-                            if (charging)
-                            {
-                                currentFrame = (currentFrame + 1) % chargeArray.Length;
-                                transform.rotation = new Quaternion(0, 0, 0,0);
-                                flipped = false;
-                                spriteRenderer.sprite = chargeArray[currentFrame];
-                            }
-                            else
-                            {
-                                currentFrame = (currentFrame + 1) % walkArray.Length;
-                                transform.rotation = new Quaternion(0, 0, 0,0);
-                                flipped = false;
-                                spriteRenderer.sprite = walkArray[currentFrame];
-                            }
+                            animator.SetBool("isCharged", true);
+                            transform.rotation = new Quaternion(0, 0, 0,0);
+                            flipped = false;
+                        }
+                        else
+                        {
+                            animator.SetBool("isCharged", false);
+                            transform.rotation = new Quaternion(0, 0, 0,0);
+                            flipped = false;
                         }
                     }
                 }
@@ -143,6 +135,7 @@ public class PlayerScript : MonoBehaviour {
                     transform.rotation = new Quaternion(0, 0, 0,0);
                     flipped = false;
                     SamuraiCharge();
+                    animator.SetBool("isAnimated", false);
                     if (charging)
                     {
                         spriteRenderer.sprite = swingArray[0];
@@ -157,27 +150,23 @@ public class PlayerScript : MonoBehaviour {
                 if (Input.GetKey(KeyCode.DownArrow)) {
                     if (yPos > bottomWall) {
                         yPos -= speed;
+                        animator.SetBool("isAnimated", true);
                     
-                        if (timer >= frameRate)
+                        SamuraiCharge();
+                        if (charging)
                         {
-                            timer -= frameRate;
-                            SamuraiCharge();
-                            if (charging)
-                            {
-                                currentFrame = (currentFrame + 1) % chargeArray.Length;
-                                spriteRenderer.sprite = chargeArray[currentFrame];
-                            }
-                            else
-                            {
-                                currentFrame = (currentFrame + 1) % walkArray.Length;
-                                spriteRenderer.sprite = walkArray[currentFrame];
-                            }
+                            animator.SetBool("isCharged", true);
+                        }
+                        else
+                        {
+                            animator.SetBool("isCharged", false);
                         }
                     }
                 }
             
                 if (Input.GetKeyUp(KeyCode.DownArrow)) {
                     SamuraiCharge();
+                    animator.SetBool("isAnimated", false);
                     if (charging)
                     {
                         spriteRenderer.sprite = swingArray[0];
@@ -192,27 +181,23 @@ public class PlayerScript : MonoBehaviour {
                 if (Input.GetKey(KeyCode.UpArrow)) {
                     if (yPos < topWall) {
                         yPos += speed;
+                        animator.SetBool("isAnimated", true);
                     
-                        if (timer >= frameRate)
+                        SamuraiCharge();
+                        if (charging)
                         {
-                            timer -= frameRate;
-                            SamuraiCharge();
-                            if (charging)
-                            {
-                                currentFrame = (currentFrame + 1) % chargeArray.Length;
-                                spriteRenderer.sprite = chargeArray[currentFrame];
-                            }
-                            else
-                            {
-                                currentFrame = (currentFrame + 1) % walkArray.Length;
-                                spriteRenderer.sprite = walkArray[currentFrame];
-                            }
+                            animator.SetBool("isCharged", true);
+                        }
+                        else
+                        {
+                            animator.SetBool("isCharged", false);
                         }
                     }
                 }
             
                 if (Input.GetKeyUp(KeyCode.UpArrow)) {
                     SamuraiCharge();
+                    animator.SetBool("isAnimated", false);
                     if (charging)
                     {
                         spriteRenderer.sprite = swingArray[0];
@@ -226,6 +211,8 @@ public class PlayerScript : MonoBehaviour {
                 // swing the sword
                 if (Input.GetKeyDown(fireKey))
                 {
+                    animator.SetBool("isAnimated", false);
+                    
                     if (!Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKeyDown(KeyCode.RightArrow) &&
                         !Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKeyDown(KeyCode.UpArrow))
                     {
@@ -364,7 +351,8 @@ public class PlayerScript : MonoBehaviour {
             {
                 spriteRenderer.sprite = dead;
                 ignoreInput = true;
-                yPos -= 0.015f;
+                // make player sprite fall
+                yPos -= 0.15f;
             }
             else
             {
