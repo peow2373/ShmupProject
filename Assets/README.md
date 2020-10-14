@@ -1,4 +1,4 @@
-﻿Hello, and thank you for checking out my game! When I had first envisioned creating a new game within the classic Shoot 'em' up genre, my instant thought was to create a game that didn't involve shooting.
+﻿Hello, and thank you for checking out my game "Just Swinging It." When I had first envisioned creating a new game within the classic Shoot 'em' up genre, my instant thought was to create a game that didn't involve shooting.
 I wanted my game to have similar gameplay elements to classic Sh'm'ups, such as: the goal of achieving a high score without set levels, the bullet-hell style gameplay, and the limitations on what controls you were given. 
 When brainstorming themes for my game, I was attracted to the idea of playing as a Samurai, who skillfully wields a sword and only swings when it is tactically the best option. 
 
