@@ -21,6 +21,8 @@ public class ProjectileScript : MonoBehaviour
 
     public GameObject projectile;
     private bool temp = true;
+    private bool temp1 = true;
+    private bool temp2 = true;
     private Vector2 loc;
 
     // Start is called before the first frame update
@@ -71,7 +73,13 @@ public class ProjectileScript : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x * -1.1f, rb.velocity.y);
                 //rb.angularVelocity *= -1.1f;
-                Debug.Log("blocked!");
+
+                if (temp1)
+                {
+                    //POINTS: block another sword
+                    GameManagerScript.score += 50;
+                    temp1 = false;
+                }
             }
             return;
         }
@@ -86,8 +94,7 @@ public class ProjectileScript : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other)
     {
         temp = false;
-        Debug.Log(loc);
-        
+
         if (other.gameObject.tag == "enemy" || other.gameObject.tag == "enemy sword")
         {
             //determine which direction the enemy is facing
@@ -125,6 +132,9 @@ public class ProjectileScript : MonoBehaviour
                     other.gameObject.GetComponent<EnemyScript>().timeStop = true;
                     Destroy(this.gameObject);
                 }
+                
+                //POINTS: Hit enemy at start of sword launch
+                other.gameObject.GetComponent<EnemyScript>().tooEarly = false;
             }
             else
             {
@@ -135,6 +145,9 @@ public class ProjectileScript : MonoBehaviour
                 
                 this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 Destroy(this.gameObject);
+                
+                //POINTS: Hit enemy at start of sword launch
+                other.gameObject.GetComponent<EnemyScript>().tooEarly = true;
             }
         }
         
@@ -143,7 +156,12 @@ public class ProjectileScript : MonoBehaviour
             if (Time.time - time > 0.5f)
             {
                 Destroy(this.gameObject);
-                Debug.Log("ouch!");
+                if (temp2)
+                {
+                    //LIVES LOST: Sword hits player
+                    GameManagerScript.lives--;
+                    temp2 = false;
+                }
             }
             else
             {

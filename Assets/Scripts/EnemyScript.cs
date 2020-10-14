@@ -44,6 +44,11 @@ public class EnemyScript : MonoBehaviour
     public bool timeStop = false;
     
     public int ninjaLife = 0;
+    private float chargeCombo = 1;
+    private float swordCombo = 1;
+    public bool tooEarly = false;
+    private bool temp = true;
+    private bool temp1 = true;
 
     private void Awake()
     {
@@ -164,7 +169,10 @@ public class EnemyScript : MonoBehaviour
             time = Time.time;
             timeStop = false;
         }
+        
         EnemyDeath();
+        chargeCombo = GameManagerScript.chargeCombo;
+        swordCombo = GameManagerScript.swordCombo;
     }
 
     private void SpawnType()
@@ -198,6 +206,7 @@ public class EnemyScript : MonoBehaviour
         if (other.gameObject.tag == "player" || other.gameObject.tag == "player sword")
         {
             // kill enemy
+            tooEarly = true;
             isDying = true;
             timeStop = true;
         }
@@ -208,7 +217,13 @@ public class EnemyScript : MonoBehaviour
         if (other.gameObject.tag == "player")
         {
             Destroy(this.gameObject);
-            Debug.Log("ouch!");
+            if (temp1)
+            {
+                //LIVES LOST: Ninja hits player
+                if (hasSword) GameManagerScript.lives -= 2;
+                if (!hasSword) GameManagerScript.lives--;
+                temp1 = false;
+            }
         }
         
         if (other.gameObject.tag == "player sword" || other.gameObject.tag == "enemy")
@@ -292,10 +307,35 @@ public class EnemyScript : MonoBehaviour
                     if (!hasSword)
                     {
                         sr.sprite = ninjaDead;
+                        
+                        if (tooEarly)
+                        {
+                            if (temp)
+                            {
+                                //POINTS: Sword hits an enemy
+                                GameManagerScript.score += 10 * chargeCombo * swordCombo;
+                                temp = false;
+                            }
+                        }
+                        else
+                        {
+                            if (temp)
+                            {
+                                //POINTS: Sword hits an enemy in the back
+                                GameManagerScript.score += 20 * chargeCombo * swordCombo;
+                                temp = false;
+                            }
+                        }
                     }
                     else
                     {
                         sr.sprite = ninjaDeadSword;
+                        if (temp)
+                        {
+                            //POINTS: Sword hits an enemy in the back
+                            GameManagerScript.score += 40 * chargeCombo * swordCombo;
+                            temp = false;
+                        }
                     }
                 }
                 if (Time.time - time >= 0.5f)

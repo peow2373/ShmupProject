@@ -37,6 +37,8 @@ public class PlayerScript : MonoBehaviour {
     private BoxCollider2D boxCollider;
     public GameObject sword;
     private CircleCollider2D swordCollider;
+    
+    private float timed = 0;
 
     void Awake()
     {
@@ -249,7 +251,7 @@ public class PlayerScript : MonoBehaviour {
 
         if (charging)
         {
-            speed = 0.0175f;
+            speed = 0.02f;
             boxCollider.size = new Vector2(1.8f,1.65f);
             boxCollider.offset = new Vector2(0.1f, 0.1f);
         }
@@ -261,6 +263,25 @@ public class PlayerScript : MonoBehaviour {
         }
 
         transform.localPosition = new Vector3(xPos, yPos, 0);
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            timed = Time.time;
+        }
+        
+        //Charging Combo
+        if (Time.time - timed < 0.5f)
+        {
+            GameManagerScript.chargeCombo = 1f;
+        } 
+        else if (Time.time - timed > 0.5f && Time.time - timed < 1f)
+        {
+            GameManagerScript.chargeCombo = 1.5f;
+        } 
+        else if (Time.time - timed >= 1.5f)
+        {
+            GameManagerScript.chargeCombo = 2f;
+        }
     }
 
     private void SwingSword()
@@ -273,6 +294,9 @@ public class PlayerScript : MonoBehaviour {
             if (timeDiff >= standardTime)
             {
                 spriteRenderer.sprite = swingArray[1];
+                boxCollider.isTrigger = true;
+                swordCollider.enabled = true;
+                swordCollider.isTrigger = true;
             }
             if (timeDiff >= standardTime * 2)
             {
@@ -280,9 +304,6 @@ public class PlayerScript : MonoBehaviour {
             }
             if (timeDiff >= standardTime * 3)
             {
-                boxCollider.isTrigger = true;
-                swordCollider.enabled = true;
-                swordCollider.isTrigger = true;
                 spriteRenderer.sprite = swingArray[3];
             }
             if (timeDiff >= standardTime * 4)
@@ -324,10 +345,11 @@ public class PlayerScript : MonoBehaviour {
         {
             charging = true;
         }
-        
+
         if (Input.GetKeyUp(KeyCode.Space))
         {
             charging = false;
+            GameManagerScript.chargeCombo = 1f;
         }
     }
 }
