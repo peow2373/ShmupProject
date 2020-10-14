@@ -79,18 +79,16 @@ public class ProjectileScript : MonoBehaviour
         if (other.gameObject.tag == "enemy" || other.gameObject.tag == "enemy sword")
         {
             Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-            Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
     }
 
     // while player isn't swinging
     private void OnCollisionEnter2D(Collision2D other)
     {
-        temp = true;
-
+        //temp = false;
+        
         if (other.gameObject.tag == "enemy" || other.gameObject.tag == "enemy sword")
         {
-            //this.GetComponent<Renderer>().enabled = false;
             if (Time.time - time > 0.15f)
             {
                 other.gameObject.GetComponent<EnemyScript>().isDying = true;
@@ -104,6 +102,7 @@ public class ProjectileScript : MonoBehaviour
                 other.gameObject.GetComponent<EnemyScript>().isDying = true;
                 other.gameObject.GetComponent<EnemyScript>().timeStop = true;
                 Instantiate(projectile, loc, Quaternion.identity);
+                this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 Destroy(this.gameObject);
             }
         }

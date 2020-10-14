@@ -148,7 +148,14 @@ public class EnemyScript : MonoBehaviour
         else
         {
             // animate attacking sword ninja
-            sc.enabled = true;
+            if (attacking)
+            {
+                sc.enabled = true;
+            }
+            else
+            {
+                sc.enabled = false;
+            }
             Attack(swingArray, 2.5f, 0.45f);
         }
 
@@ -190,16 +197,9 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject.tag == "player" || other.gameObject.tag == "player sword")
         {
-            if (ninjaLife == 1)
-            {
-                
-            }
-            else
-            {
-                // kill enemy
-                isDying = true;
-                timeStop = true;
-            }
+            // kill enemy
+            isDying = true;
+            timeStop = true;
         }
     }
     
@@ -214,7 +214,6 @@ public class EnemyScript : MonoBehaviour
         if (other.gameObject.tag == "player sword" || other.gameObject.tag == "enemy")
         {
             Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
-            Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
     }
 
@@ -247,28 +246,62 @@ public class EnemyScript : MonoBehaviour
 
     private void EnemyDeath()
     {
-        if (isDying)
+        // if sword enemy
+        if (ninjaLife == 1)
         {
-            cc.isTrigger = true;
-            sc.isTrigger = true;
-            cc.enabled = false;
-            sc.enabled = false;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
-            
-            if (Time.time - time < 0.5f)
+            if (isDying)
             {
-                if (!hasSword)
+                cc.isTrigger = true;
+                sc.isTrigger = true;
+                cc.enabled = false;
+                sc.enabled = false;
+                
+                if (Time.time - time < 0.75f)
                 {
-                    sr.sprite = ninjaDead;
+                    sr.sprite = ninjaHit;
+                    canMove = false;
+                    rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
                 }
                 else
                 {
-                    sr.sprite = ninjaDeadSword;
+                    cc.isTrigger = false;
+                    sc.isTrigger = false;
+                    cc.enabled = true;
+                    
+                    canMove = true;
+                    sr.color = Color.red;
+                    moveSpeed = 7f;
+                    ninjaLife = 0;
+                    rb.constraints = RigidbodyConstraints2D.FreezeRotation;
+                    isDying = false;
                 }
             }
-            if (Time.time - time >= 0.5f)
+        }
+        else
+        {
+            if (isDying)
             {
-                Destroy(this.gameObject);
+                cc.isTrigger = true;
+                sc.isTrigger = true;
+                cc.enabled = false;
+                sc.enabled = false;
+                rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+            
+                if (Time.time - time < 0.5f)
+                {
+                    if (!hasSword)
+                    {
+                        sr.sprite = ninjaDead;
+                    }
+                    else
+                    {
+                        sr.sprite = ninjaDeadSword;
+                    }
+                }
+                if (Time.time - time >= 0.5f)
+                {
+                    Destroy(this.gameObject);
+                }
             }
         }
     }

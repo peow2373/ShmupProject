@@ -173,14 +173,17 @@ MonoBehaviour:
   - {fileID: 21300000, guid: daae76e2009c24848847902f31eaa947, type: 3}
   - {fileID: 21300000, guid: b5b7e9b7cbe8f4b47abd8d500ae55383, type: 3}
   - {fileID: 21300000, guid: e5fdc220f97c87b47a3f7705242026c2, type: 3}
+  hasSword: 0
   frameRate: 0.15
   attackDist: 2.5
   ninjaHit: {fileID: 21300000, guid: 4a1cd9dd272bbcb40bb721f1375cb4a7, type: 3}
   ninjaDead: {fileID: 21300000, guid: a61c467cd197e84409a4450b8c83571a, type: 3}
   ninjaDeadSword: {fileID: 21300000, guid: ebd1e50c533d41e4c9bd04d129b0d97e, type: 3}
-  spawnRate: 80
+  spawnRate: 50
   sword: {fileID: 604658360847769114}
   isDying: 0
+  timeStop: 0
+  ninjaLife: 0
 --- !u!61 &1909963545385241430
 BoxCollider2D:
   m_ObjectHideFlags: 0
