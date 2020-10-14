@@ -33,15 +33,15 @@ public class EnemyManagerScript : MonoBehaviour {
         //}
         
         float rate = UnityEngine.Random.Range(2f, 4f);
-        
         InvokeRepeating("SpawnEnemies", 1.0f, rate);
     }
 
     void Update()
     {
-        // move side to side
-        //float offset = Mathf.Sin(Time.time * speed) * amplitude / 2;
-        //transform.position = new Vector2(offset,transform.position.y);
+        if (GameManagerScript.endGame)
+        {
+            CancelInvoke();
+        }
     }
 
     void SpawnEnemies()

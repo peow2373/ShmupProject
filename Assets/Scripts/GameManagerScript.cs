@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManagerScript : MonoBehaviour
 {
@@ -10,9 +13,18 @@ public class GameManagerScript : MonoBehaviour
     public static float swordCombo = 1;
 
     public GameObject[] hearts;
-    
+    public GameObject square;
+    public GameObject scoreKeeper;
+    public Text scoreText;
+    public Text endScore;
+    public Text bestScore;
+    public Text gameOver;
+    public Text restart;
+
+    public static bool endGame = false;
+
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         
     }
@@ -50,9 +62,51 @@ public class GameManagerScript : MonoBehaviour
                 hearts[i].gameObject.SetActive(false);
             }
         }
-        
 
-        Debug.Log(score);
-        //Debug.Log(lives);
+        scoreText.text = "Score:" + score;
+
+        if (lives <= 0)
+        {
+            GameOver();
+        }
+    }
+
+    private void GameOver()
+    {
+        endGame = true;
+
+        square.gameObject.SetActive(true);
+        scoreText.gameObject.SetActive(false);
+        gameOver.gameObject.SetActive(true);
+        if (score == HighScoreScript.highScore)
+        {
+            endScore.text = "Score: " + score + "!";
+        }
+        else
+        {
+            endScore.text = "Score: " + score;
+        }
+        bestScore.text = "High Score: " + HighScoreScript.highScore + "!";
+        endScore.gameObject.SetActive(true);
+        bestScore.gameObject.SetActive(true);
+        restart.gameObject.SetActive(true);
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            SceneManager.LoadScene("Main");
+            square.gameObject.SetActive(false);
+            scoreText.gameObject.SetActive(true);
+            gameOver.gameObject.SetActive(false);
+            endScore.gameObject.SetActive(false);
+            bestScore.gameObject.SetActive(false);
+            restart.gameObject.SetActive(false);
+
+            score = 0;
+            lives = 5;
+            HighScoreScript.temp = true;
+            chargeCombo = 1;
+            swordCombo = 1;
+            endGame = false;
+        }
     }
 }

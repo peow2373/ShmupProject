@@ -17,6 +17,7 @@ public class PlayerScript : MonoBehaviour {
     public Sprite[] swingArray;
     public Sprite[] chargeArray;
     public Sprite standing;
+    public Sprite dead;
     private SpriteRenderer spriteRenderer;
     
     private int currentFrame;
@@ -35,8 +36,9 @@ public class PlayerScript : MonoBehaviour {
     private BoxCollider2D boxCollider;
     public GameObject sword;
     private CircleCollider2D swordCollider;
-    
+
     private float timed = 0;
+    private bool ignoreInput = false;
 
     void Awake()
     {
@@ -67,179 +69,182 @@ public class PlayerScript : MonoBehaviour {
 
         if (!swingingSword)
         {
-            // move left
-            if (Input.GetKey(KeyCode.LeftArrow)) {
-                if (xPos > leftWall) {
-                    xPos -= speed;
-                    
-                    if (timer >= frameRate)
-                    {
-                        timer -= frameRate;
-                        SamuraiCharge();
-                        if (charging)
-                        {
-                            currentFrame = (currentFrame + 1) % chargeArray.Length;
-                            transform.rotation = new Quaternion(0, 180, 0,0);
-                            flipped = true;
-                            spriteRenderer.sprite = chargeArray[currentFrame];
-                        }
-                        else
-                        {
-                            currentFrame = (currentFrame + 1) % walkArray.Length;
-                            transform.rotation = new Quaternion(0, 180, 0,0);
-                            flipped = true;
-                            spriteRenderer.sprite = walkArray[currentFrame];
-                        }
-                    }
-                }
-            }
-            
-            if (Input.GetKeyUp(KeyCode.LeftArrow)) {
-                transform.rotation = new Quaternion(0, 180, 0,0);
-                flipped = true;
-                SamuraiCharge();
-                if (charging)
-                {
-                    spriteRenderer.sprite = swingArray[0];
-                }
-                else
-                {
-                    spriteRenderer.sprite = standing;
-                }
-            }
-
-            // move right
-            if (Input.GetKey(KeyCode.RightArrow)) {
-                if (xPos < rightWall) {
-                    xPos += speed;
-                    
-                    if (timer >= frameRate)
-                    {
-                        timer -= frameRate;
-                        SamuraiCharge();
-                        if (charging)
-                        {
-                            currentFrame = (currentFrame + 1) % chargeArray.Length;
-                            transform.rotation = new Quaternion(0, 0, 0,0);
-                            flipped = false;
-                            spriteRenderer.sprite = chargeArray[currentFrame];
-                        }
-                        else
-                        {
-                            currentFrame = (currentFrame + 1) % walkArray.Length;
-                            transform.rotation = new Quaternion(0, 0, 0,0);
-                            flipped = false;
-                            spriteRenderer.sprite = walkArray[currentFrame];
-                        }
-                    }
-                }
-            }
-            
-            if (Input.GetKeyUp(KeyCode.RightArrow)) {
-                transform.rotation = new Quaternion(0, 0, 0,0);
-                flipped = false;
-                SamuraiCharge();
-                if (charging)
-                {
-                    spriteRenderer.sprite = swingArray[0];
-                }
-                else
-                {
-                    spriteRenderer.sprite = standing;
-                }
-            }
-            
-            // move down
-            if (Input.GetKey(KeyCode.DownArrow)) {
-                if (yPos > bottomWall) {
-                    yPos -= speed;
-                    
-                    if (timer >= frameRate)
-                    {
-                        timer -= frameRate;
-                        SamuraiCharge();
-                        if (charging)
-                        {
-                            currentFrame = (currentFrame + 1) % chargeArray.Length;
-                            spriteRenderer.sprite = chargeArray[currentFrame];
-                        }
-                        else
-                        {
-                            currentFrame = (currentFrame + 1) % walkArray.Length;
-                            spriteRenderer.sprite = walkArray[currentFrame];
-                        }
-                    }
-                }
-            }
-            
-            if (Input.GetKeyUp(KeyCode.DownArrow)) {
-                SamuraiCharge();
-                if (charging)
-                {
-                    spriteRenderer.sprite = swingArray[0];
-                }
-                else
-                {
-                    spriteRenderer.sprite = standing;
-                }
-            }
-
-            // move up
-            if (Input.GetKey(KeyCode.UpArrow)) {
-                if (yPos < topWall) {
-                    yPos += speed;
-                    
-                    if (timer >= frameRate)
-                    {
-                        timer -= frameRate;
-                        SamuraiCharge();
-                        if (charging)
-                        {
-                            currentFrame = (currentFrame + 1) % chargeArray.Length;
-                            spriteRenderer.sprite = chargeArray[currentFrame];
-                        }
-                        else
-                        {
-                            currentFrame = (currentFrame + 1) % walkArray.Length;
-                            spriteRenderer.sprite = walkArray[currentFrame];
-                        }
-                    }
-                }
-            }
-            
-            if (Input.GetKeyUp(KeyCode.UpArrow)) {
-                SamuraiCharge();
-                if (charging)
-                {
-                    spriteRenderer.sprite = swingArray[0];
-                }
-                else
-                {
-                    spriteRenderer.sprite = standing;
-                }
-            }
-        }
-
-        // swing the sword
-        if (Input.GetKeyDown(fireKey))
-        {
-            if (!Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKeyDown(KeyCode.RightArrow) &&
-                !Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKeyDown(KeyCode.UpArrow))
+            if (!ignoreInput)
             {
-                spriteRenderer.sprite = swingArray[0];
-                swordFire = true;
-            }
-        }
+                // move left
+                if (Input.GetKey(KeyCode.LeftArrow)) {
+                    if (xPos > leftWall) {
+                        xPos -= speed;
+                    
+                        if (timer >= frameRate)
+                        {
+                            timer -= frameRate;
+                            SamuraiCharge();
+                            if (charging)
+                            {
+                                currentFrame = (currentFrame + 1) % chargeArray.Length;
+                                transform.rotation = new Quaternion(0, 180, 0,0);
+                                flipped = true;
+                                spriteRenderer.sprite = chargeArray[currentFrame];
+                            }
+                            else
+                            {
+                                currentFrame = (currentFrame + 1) % walkArray.Length;
+                                transform.rotation = new Quaternion(0, 180, 0,0);
+                                flipped = true;
+                                spriteRenderer.sprite = walkArray[currentFrame];
+                            }
+                        }
+                    }
+                }
+            
+                if (Input.GetKeyUp(KeyCode.LeftArrow)) {
+                    transform.rotation = new Quaternion(0, 180, 0,0);
+                    flipped = true;
+                    SamuraiCharge();
+                    if (charging)
+                    {
+                        spriteRenderer.sprite = swingArray[0];
+                    }
+                    else
+                    {
+                        spriteRenderer.sprite = standing;
+                    }    
+                }
+
+                // move right
+                if (Input.GetKey(KeyCode.RightArrow)) {
+                    if (xPos < rightWall) {
+                        xPos += speed;
+                    
+                        if (timer >= frameRate)
+                        {
+                            timer -= frameRate;
+                            SamuraiCharge();
+                            if (charging)
+                            {
+                                currentFrame = (currentFrame + 1) % chargeArray.Length;
+                                transform.rotation = new Quaternion(0, 0, 0,0);
+                                flipped = false;
+                                spriteRenderer.sprite = chargeArray[currentFrame];
+                            }
+                            else
+                            {
+                                currentFrame = (currentFrame + 1) % walkArray.Length;
+                                transform.rotation = new Quaternion(0, 0, 0,0);
+                                flipped = false;
+                                spriteRenderer.sprite = walkArray[currentFrame];
+                            }
+                        }
+                    }
+                }
+            
+                if (Input.GetKeyUp(KeyCode.RightArrow)) {
+                    transform.rotation = new Quaternion(0, 0, 0,0);
+                    flipped = false;
+                    SamuraiCharge();
+                    if (charging)
+                    {
+                        spriteRenderer.sprite = swingArray[0];
+                    }
+                    else
+                    {
+                        spriteRenderer.sprite = standing;
+                    }
+                }
+            
+                // move down
+                if (Input.GetKey(KeyCode.DownArrow)) {
+                    if (yPos > bottomWall) {
+                        yPos -= speed;
+                    
+                        if (timer >= frameRate)
+                        {
+                            timer -= frameRate;
+                            SamuraiCharge();
+                            if (charging)
+                            {
+                                currentFrame = (currentFrame + 1) % chargeArray.Length;
+                                spriteRenderer.sprite = chargeArray[currentFrame];
+                            }
+                            else
+                            {
+                                currentFrame = (currentFrame + 1) % walkArray.Length;
+                                spriteRenderer.sprite = walkArray[currentFrame];
+                            }
+                        }
+                    }
+                }
+            
+                if (Input.GetKeyUp(KeyCode.DownArrow)) {
+                    SamuraiCharge();
+                    if (charging)
+                    {
+                        spriteRenderer.sprite = swingArray[0];
+                    }
+                    else
+                    {
+                        spriteRenderer.sprite = standing;
+                    }
+                }
+
+                // move up
+                if (Input.GetKey(KeyCode.UpArrow)) {
+                    if (yPos < topWall) {
+                        yPos += speed;
+                    
+                        if (timer >= frameRate)
+                        {
+                            timer -= frameRate;
+                            SamuraiCharge();
+                            if (charging)
+                            {
+                                currentFrame = (currentFrame + 1) % chargeArray.Length;
+                                spriteRenderer.sprite = chargeArray[currentFrame];
+                            }
+                            else
+                            {
+                                currentFrame = (currentFrame + 1) % walkArray.Length;
+                                spriteRenderer.sprite = walkArray[currentFrame];
+                            }
+                        }
+                    }
+                }
+            
+                if (Input.GetKeyUp(KeyCode.UpArrow)) {
+                    SamuraiCharge();
+                    if (charging)
+                    {
+                        spriteRenderer.sprite = swingArray[0];
+                    }
+                    else
+                    {
+                        spriteRenderer.sprite = standing;
+                    }
+                } 
+                
+                // swing the sword
+                if (Input.GetKeyDown(fireKey))
+                {
+                    if (!Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKeyDown(KeyCode.RightArrow) &&
+                        !Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        spriteRenderer.sprite = swingArray[0];
+                        swordFire = true;
+                    }
+                }
         
-        if (Input.GetKeyUp(fireKey))
-        {
-            swingingSword = true;
+                if (Input.GetKeyUp(fireKey))
+                {
+                    swingingSword = true;
             
-            if (!Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKeyDown(KeyCode.RightArrow) &&
-                !Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKeyDown(KeyCode.UpArrow))
-            {
-                swinging = true;
-                swingTime = Time.time;
+                    if (!Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKeyDown(KeyCode.RightArrow) &&
+                        !Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKeyDown(KeyCode.UpArrow))
+                    {
+                        swinging = true;
+                        swingTime = Time.time;
+                    }
+                }
             }
         }
 
@@ -278,6 +283,8 @@ public class PlayerScript : MonoBehaviour {
         {
             GameManagerScript.chargeCombo = 2f;
         }
+
+        GameOver();
     }
 
     private void SwingSword()
@@ -346,6 +353,23 @@ public class PlayerScript : MonoBehaviour {
         {
             charging = false;
             GameManagerScript.chargeCombo = 1f;
+        }
+    }
+    
+    private void GameOver()
+    {
+        if (GameManagerScript.endGame)
+        {
+            if (transform.position.y > bottomWall - 2.0f)
+            {
+                spriteRenderer.sprite = dead;
+                ignoreInput = true;
+                yPos -= 0.015f;
+            }
+            else
+            {
+                this.gameObject.SetActive(false);
+            }
         }
     }
 }

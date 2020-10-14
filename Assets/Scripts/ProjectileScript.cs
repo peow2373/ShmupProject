@@ -42,6 +42,8 @@ public class ProjectileScript : MonoBehaviour
         {
             loc = new Vector2(this.transform.position.x, this.transform.position.y);
         }
+
+        GameOver();
     }
     
     private IEnumerator Launch()
@@ -211,6 +213,14 @@ public class ProjectileScript : MonoBehaviour
         if (Mathf.Abs(rb.velocity.y) < minSpeed) {
             // shorthand to check for existing direction
             rb.velocity = new Vector2(rb.velocity.x, (rb.velocity.y < 0) ? -minSpeed : minSpeed);
+        }
+    }
+
+    private void GameOver()
+    {
+        if (GameManagerScript.endGame)
+        {
+            this.gameObject.SetActive(false);
         }
     }
 }

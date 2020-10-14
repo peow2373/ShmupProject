@@ -178,6 +178,8 @@ MonoBehaviour:
   ninjaHit: {fileID: 21300000, guid: 4a1cd9dd272bbcb40bb721f1375cb4a7, type: 3}
   ninjaDead: {fileID: 21300000, guid: a61c467cd197e84409a4450b8c83571a, type: 3}
   ninjaDeadSword: {fileID: 21300000, guid: ebd1e50c533d41e4c9bd04d129b0d97e, type: 3}
+  ninjaStand: {fileID: 21300000, guid: 38c9a94a3a4befb4d8b896cb022e4071, type: 3}
+  ninjaSwordStand: {fileID: 21300000, guid: fb7851c9df79468419773fa4109428fe, type: 3}
   spawnRate: 80
   sword: {fileID: 604658360847769114}
   isDying: 0

@@ -34,6 +34,8 @@ public class EnemyScript : MonoBehaviour
     public Sprite ninjaHit;
     public Sprite ninjaDead;
     public Sprite ninjaDeadSword;
+    public Sprite ninjaStand;
+    public Sprite ninjaSwordStand;
     public int spawnRate = 80;
 
     private BoxCollider2D sc;
@@ -173,6 +175,7 @@ public class EnemyScript : MonoBehaviour
         EnemyDeath();
         chargeCombo = GameManagerScript.chargeCombo;
         swordCombo = GameManagerScript.swordCombo;
+        GameOver();
     }
 
     private void SpawnType()
@@ -342,6 +345,18 @@ public class EnemyScript : MonoBehaviour
                     Destroy(this.gameObject);
                 }
             }
+        }
+    }
+
+    private void GameOver()
+    {
+        if (GameManagerScript.endGame)
+        {
+            rb.constraints = RigidbodyConstraints2D.FreezeAll;
+            canMove = false;
+            attacking = false;
+            if (!hasSword) sr.sprite = ninjaStand;
+            if (hasSword) sr.sprite = ninjaSwordStand;
         }
     }
 }
