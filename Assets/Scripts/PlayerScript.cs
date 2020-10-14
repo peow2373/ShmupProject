@@ -249,13 +249,13 @@ public class PlayerScript : MonoBehaviour {
 
         if (charging)
         {
-            speed = 0.02f;
+            speed = 0.0175f;
             boxCollider.size = new Vector2(1.8f,1.65f);
             boxCollider.offset = new Vector2(0.1f, 0.1f);
         }
         else
         {
-            speed = 0.03f;
+            speed = 0.025f;
             boxCollider.size = new Vector2(1.4f,1.6f);
             boxCollider.offset = new Vector2(0.2f, 0.1f);
         }

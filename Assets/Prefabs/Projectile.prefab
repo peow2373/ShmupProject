@@ -153,4 +153,3 @@ MonoBehaviour:
   torque: 0.02
   flipX: 0
   projectile: {fileID: 8834220249112390513}
-  loc: {x: 0, y: 0}
