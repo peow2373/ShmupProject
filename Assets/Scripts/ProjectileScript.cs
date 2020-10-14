@@ -85,23 +85,54 @@ public class ProjectileScript : MonoBehaviour
     // while player isn't swinging
     private void OnCollisionEnter2D(Collision2D other)
     {
-        //temp = false;
+        temp = false;
+        Debug.Log(loc);
         
         if (other.gameObject.tag == "enemy" || other.gameObject.tag == "enemy sword")
         {
+            //determine which direction the enemy is facing
+            Vector2 loc1 = this.gameObject.GetComponent<Transform>().position;
+            Vector2 loc2 = other.gameObject.GetComponent<Transform>().position;
+            Vector2 direction = loc2 - loc1;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            if (angle > 360) angle -= 360;
+            if (angle < 0) angle += 360;
+
             if (Time.time - time > 0.15f)
             {
-                other.gameObject.GetComponent<EnemyScript>().isDying = true;
-                other.gameObject.GetComponent<EnemyScript>().timeStop = true;
-                Debug.Log("sword kill");
-                Destroy(this.gameObject);
+                //determine which direction the enemy is facing
+                if (angle < 90 || angle > 270)
+                {
+                    if (other.gameObject.GetComponent<EnemyScript>().hasSword == false)
+                    {
+                        // catch sword
+                        Destroy(this.gameObject);
+                        other.gameObject.GetComponent<EnemyScript>().hasSword = true;
+                        other.gameObject.GetComponent<EnemyScript>().ninjaLife = 1;
+                    }
+                    else
+                    {
+                        // make sword ninja lose a life
+                        other.gameObject.GetComponent<EnemyScript>().isDying = true;
+                        other.gameObject.GetComponent<EnemyScript>().timeStop = true;
+                        Destroy(this.gameObject);
+                    }
+                    
+                }
+                else
+                {
+                    other.gameObject.GetComponent<EnemyScript>().isDying = true;
+                    other.gameObject.GetComponent<EnemyScript>().timeStop = true;
+                    Destroy(this.gameObject);
+                }
             }
             else
             {
-                //this.GetComponent<Renderer>().enabled = false;
+                //early sword launch
                 other.gameObject.GetComponent<EnemyScript>().isDying = true;
                 other.gameObject.GetComponent<EnemyScript>().timeStop = true;
                 Instantiate(projectile, loc, Quaternion.identity);
+                
                 this.gameObject.GetComponent<SpriteRenderer>().enabled = false;
                 Destroy(this.gameObject);
             }
