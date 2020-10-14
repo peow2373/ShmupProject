@@ -232,6 +232,11 @@ public class EnemyScript : MonoBehaviour
         {
             Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
+        
+        if (other.gameObject.tag == "wall")
+        {
+            Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+        }
     }
 
     private void Attack(Sprite[] attackArray, float colliderSize, float colliderOffset)
@@ -357,6 +362,32 @@ public class EnemyScript : MonoBehaviour
             attacking = false;
             if (!hasSword) sr.sprite = ninjaStand;
             if (hasSword) sr.sprite = ninjaSwordStand;
+        }
+    }
+
+    private void SpawnRate()
+    {
+        float score = GameManagerScript.score;
+        
+        if (score <= 50)
+        {
+            spawnRate = 100;
+        }
+        else if (score > 50 && score < 150)
+        {
+            spawnRate = 90;
+        }
+        else if (score > 150 && score < 500)
+        {
+            spawnRate = 75;
+        }
+        else if (score > 500 && score < 1000)
+        {
+            spawnRate = 50;
+        }
+        else
+        {
+            spawnRate = 30;
         }
     }
 }

@@ -1086,7 +1086,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e1edae52d5264393903445124c3ed3a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brick: {fileID: 1909963545385241433, guid: 06b66791e841344968a365c42e0767a6, type: 3}
+  ninja: {fileID: 1909963545385241433, guid: 06b66791e841344968a365c42e0767a6, type: 3}
   brickColors:
   - {r: 1, g: 0.16127834, b: 0.0047169924, a: 1}
   - {r: 1, g: 0.68315876, b: 0, a: 1}
