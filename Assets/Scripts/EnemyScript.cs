@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
@@ -9,7 +10,6 @@ public class EnemyScript : MonoBehaviour
     public GameObject enemyProjectile;
     private GameObject player;
     private Rigidbody2D rb;
-    private BoxCollider2D bc;
     private CircleCollider2D cc;
     private Vector2 movement;
     public float moveSpeed = 3f;
@@ -30,23 +30,48 @@ public class EnemyScript : MonoBehaviour
     private float attackTime;
     private bool getTime = true;
     private bool canMove = true;
-    private int ninjaLife = 1;
-    public Sprite ninjaHit;
-    public int spawnRate = 80;
     
+    public Sprite ninjaHit;
+    public Sprite ninjaDead;
+    public Sprite ninjaDeadSword;
+    public int spawnRate = 80;
+
+    private BoxCollider2D sc;
+    public GameObject sword;
+
+    private float time;
+    public bool isDying = false;
+    public bool timeStop = false;
+    
+    public int ninjaLife = 0;
+
+    private void Awake()
+    {
+        SpawnType();
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
         sr = this.GetComponent<SpriteRenderer>();
-        bc = this.GetComponent<BoxCollider2D>();
         cc = this.GetComponent<CircleCollider2D>();
+        sc = sword.GetComponent<BoxCollider2D>();
         player = GameObject.Find("Player");
         
         float delay = Random.Range(2f, 10f);
         float rate = Random.Range(2f, 8f);
         //InvokeRepeating("Fire",delay,rate);
-        SpawnType();
+        sc.enabled = false;
+
+        if (hasSword)
+        {
+            ninjaLife = 1;
+        }
+        else
+        {
+            ninjaLife = 0;
+        }
     }
 
     void Update()
@@ -55,13 +80,16 @@ public class EnemyScript : MonoBehaviour
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         if (angle > 360) angle -= 360;
         if (angle < 0) angle += 360;
-        if (angle >= 90 && angle <= 270)
+        if (!isDying)
         {
-            transform.rotation = new Quaternion(0, 180, 0,0);
-        }
-        else
-        {
-            transform.rotation = new Quaternion(0, 0, 0,0);
+            if (angle >= 90 && angle <= 270)
+            {
+                transform.rotation = new Quaternion(0, 180, 0,0);
+            }
+            else
+            {
+                transform.rotation = new Quaternion(0, 0, 0,0);
+            }
         }
         rb.rotation = 0;
         direction.Normalize();
@@ -86,8 +114,6 @@ public class EnemyScript : MonoBehaviour
 
         if (canMove && !attacking)
         {
-            //bc.size = new Vector2(1.2f,bc.size.y);
-            //bc.offset = new Vector2(0f,bc.offset.y);
             cc.radius = 0.9f;
             cc.offset = new Vector2(0f,0f);
             
@@ -116,13 +142,22 @@ public class EnemyScript : MonoBehaviour
         if (!hasSword)
         {
             // animate attacking ninja
+            sc.enabled = false;
             Attack(hitArray, 1.6f, 0.05f);
         }
         else
         {
             // animate attacking sword ninja
+            sc.enabled = true;
             Attack(swingArray, 2.5f, 0.45f);
         }
+
+        if (timeStop)
+        {
+            time = Time.time;
+            timeStop = false;
+        }
+        EnemyDeath();
     }
 
     private void SpawnType()
@@ -155,24 +190,15 @@ public class EnemyScript : MonoBehaviour
     {
         if (other.gameObject.tag == "player" || other.gameObject.tag == "player sword")
         {
-            if (!hasSword)
+            if (ninjaLife == 1)
             {
-                Destroy(this.gameObject);
-                Debug.Log("enemy slain!");
+                
             }
             else
             {
-                if (ninjaLife == 1)
-                {
-                    sr.sprite = ninjaHit;
-                    ninjaLife = 0;
-                    hasSword = false;
-                } 
-                else if (ninjaLife == 0)
-                {
-                    Destroy(this.gameObject);
-                    Debug.Log("enemy slain!");
-                }
+                // kill enemy
+                isDying = true;
+                timeStop = true;
             }
         }
     }
@@ -206,11 +232,6 @@ public class EnemyScript : MonoBehaviour
             {
                 sr.sprite = attackArray[1];
             }
-            if (timeDiff >= standardTime * 1.5)
-            {
-                //bc.size = new Vector2(colliderSize,bc.size.y);
-                //bc.offset = new Vector2(colliderOffset,bc.offset.y);
-            }
             if (timeDiff >= standardTime * 2)
             {
                 sr.sprite = attackArray[2];
@@ -220,6 +241,34 @@ public class EnemyScript : MonoBehaviour
             {
                 getTime = true;
                 attacking = false;
+            }
+        }
+    }
+
+    private void EnemyDeath()
+    {
+        if (isDying)
+        {
+            cc.isTrigger = true;
+            sc.isTrigger = true;
+            cc.enabled = false;
+            sc.enabled = false;
+            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
+            
+            if (Time.time - time < 0.5f)
+            {
+                if (!hasSword)
+                {
+                    sr.sprite = ninjaDead;
+                }
+                else
+                {
+                    sr.sprite = ninjaDeadSword;
+                }
+            }
+            if (Time.time - time >= 0.5f)
+            {
+                Destroy(this.gameObject);
             }
         }
     }

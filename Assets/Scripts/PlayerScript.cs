@@ -263,16 +263,6 @@ public class PlayerScript : MonoBehaviour {
         transform.localPosition = new Vector3(xPos, yPos, 0);
     }
 
-    private void OnTriggerEnter2D(Collider2D other) {
-        
-        if (other.gameObject.tag == "enemy projectile")
-        {
-            Destroy(other.gameObject);
-            health -= 0.1f;
-            healthBar.fillAmount = health;
-        }
-    }
-
     private void SwingSword()
     {
         if (swinging)
@@ -323,8 +313,6 @@ public class PlayerScript : MonoBehaviour {
                 boxCollider.isTrigger = false;
                 swordCollider.enabled = false;
                 swordCollider.isTrigger = false;
-                //boxCollider.size = new Vector2(2.1f,1.65f);
-                //boxCollider.offset = new Vector2(0.2f, 0.1f);
                 swinging = false;
             }
         }

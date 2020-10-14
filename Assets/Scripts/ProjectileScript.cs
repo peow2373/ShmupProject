@@ -18,10 +18,10 @@ public class ProjectileScript : MonoBehaviour
     private SpriteRenderer spriteRenderer;
 
     private float time;
-    private bool temp = true;
 
     public GameObject projectile;
-    public Vector2 loc;
+    private bool temp = true;
+    private Vector2 loc;
 
     // Start is called before the first frame update
     void Start()
@@ -76,41 +76,34 @@ public class ProjectileScript : MonoBehaviour
             return;
         }
 
-        if (other.gameObject.tag == "wall")
-        {    
-            //Destroy(this.gameObject);
+        if (other.gameObject.tag == "enemy" || other.gameObject.tag == "enemy sword")
+        {
+            Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            Physics2D.IgnoreCollision(this.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
         }
     }
 
     // while player isn't swinging
     private void OnCollisionEnter2D(Collision2D other)
     {
-        temp = false;
-        
-        if (other.gameObject.tag == "enemy")
-        {
-            this.GetComponent<Renderer>().enabled = false;
+        temp = true;
 
-            // award points
-            if (Time.time - time < 0.025f)
+        if (other.gameObject.tag == "enemy" || other.gameObject.tag == "enemy sword")
+        {
+            //this.GetComponent<Renderer>().enabled = false;
+            if (Time.time - time > 0.15f)
             {
-                Debug.Log("enemy slain!");
+                other.gameObject.GetComponent<EnemyScript>().isDying = true;
+                other.gameObject.GetComponent<EnemyScript>().timeStop = true;
+                Debug.Log("sword kill");
                 Destroy(this.gameObject);
-                Destroy(other.gameObject);
-                Instantiate(projectile, loc, Quaternion.identity);
-            }
-            else if (Time.time - time >= 0.025f && Time.time - time < 0.15f)
-            {
-                Debug.Log("enemy slain!");
-                Destroy(this.gameObject);
-                Destroy(other.gameObject);
-                Instantiate(projectile, loc, Quaternion.identity);
             }
             else
             {
-                //bc.sharedMaterial = bouncy;
-                Debug.Log("enemy slain!");
-                Destroy(other.gameObject);
+                //this.GetComponent<Renderer>().enabled = false;
+                other.gameObject.GetComponent<EnemyScript>().isDying = true;
+                other.gameObject.GetComponent<EnemyScript>().timeStop = true;
+                Instantiate(projectile, loc, Quaternion.identity);
                 Destroy(this.gameObject);
             }
         }
@@ -142,7 +135,19 @@ public class ProjectileScript : MonoBehaviour
         {    
             if (Time.time - time < 5.0f)
             {
+                //Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            }
+        }
+        
+        if (other.gameObject.tag == "enemy sword")
+        {
+            if (!other.gameObject.GetComponent<EnemyScript>().hasSword)
+            {
                 Physics2D.IgnoreCollision(other.gameObject.GetComponent<Collider2D>(), GetComponent<Collider2D>());
+            }
+            else
+            {
+                return;
             }
         }
     }

@@ -152,5 +152,5 @@ MonoBehaviour:
   maxSpeed: 10
   torque: 0.02
   flipX: 0
-  projectile: {fileID: 9047343221487630621, guid: 5f94a5de417741d46925f148e97a1995,
-    type: 3}
+  projectile: {fileID: 8834220249112390513}
+  loc: {x: 0, y: 0}
