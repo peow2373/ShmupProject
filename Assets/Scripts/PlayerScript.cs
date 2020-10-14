@@ -8,12 +8,10 @@ public class PlayerScript : MonoBehaviour {
     private float     xPos, yPos;
     public float      speed = .05f;
     public float      leftWall, rightWall, topWall, bottomWall;
-    public float health = 1f;
 
     public KeyCode fireKey;
 
     public GameObject projectile;
-    public Image healthBar;
 
     public Sprite[] walkArray;
     public Sprite[] swingArray;
@@ -49,8 +47,6 @@ public class PlayerScript : MonoBehaviour {
     
     // Start is called before the first frame update
     void Start() {
-        //healthBar.fillAmount = health;
-        healthBar.fillAmount = 0;
         swordCollider.enabled = false;
     }
 

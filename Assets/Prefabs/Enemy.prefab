@@ -174,7 +174,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: e5fdc220f97c87b47a3f7705242026c2, type: 3}
   hasSword: 0
   frameRate: 0.15
-  attackDist: 2.5
+  attackDist: 2.75
   ninjaHit: {fileID: 21300000, guid: 4a1cd9dd272bbcb40bb721f1375cb4a7, type: 3}
   ninjaDead: {fileID: 21300000, guid: a61c467cd197e84409a4450b8c83571a, type: 3}
   ninjaDeadSword: {fileID: 21300000, guid: ebd1e50c533d41e4c9bd04d129b0d97e, type: 3}

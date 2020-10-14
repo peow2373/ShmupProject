@@ -220,8 +220,7 @@ public class EnemyScript : MonoBehaviour
             if (temp1)
             {
                 //LIVES LOST: Ninja hits player
-                if (hasSword) GameManagerScript.lives -= 2;
-                if (!hasSword) GameManagerScript.lives--;
+                GameManagerScript.lives--;
                 temp1 = false;
             }
         }

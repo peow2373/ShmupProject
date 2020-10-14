@@ -5,9 +5,11 @@ using UnityEngine;
 public class GameManagerScript : MonoBehaviour
 {
     public static float score = 0;
-    public static int lives = 10;
+    public static int lives = 5;
     public static float chargeCombo = 1;
     public static float swordCombo = 1;
+
+    public GameObject[] hearts;
     
     // Start is called before the first frame update
     void Start()
@@ -34,6 +36,19 @@ public class GameManagerScript : MonoBehaviour
         else
         {
             swordCombo = 1;
+        }
+
+        // Display lives remaining
+        for (int i = 0; i < hearts.Length; i++)
+        {
+            if (lives > i)
+            {
+                hearts[i].gameObject.SetActive(true);
+            }
+            else
+            {
+                hearts[i].gameObject.SetActive(false);
+            }
         }
         
 
