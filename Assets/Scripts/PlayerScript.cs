@@ -41,6 +41,10 @@ public class PlayerScript : MonoBehaviour {
     private bool ignoreInput = false;
     public Animator animator;
 
+    public float walkSpeed;
+    public float chargeSpeed;
+    public float fallSpeed;
+
     void Awake()
     {
         spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -56,17 +60,41 @@ public class PlayerScript : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         
-        // animation
-        //timer += Time.deltaTime;
-
-        // player flipped?
-        //if (spriteRenderer.flipX) {
-        //    flipped = true;
-        //} else {
-        //    flipped = false;
-        //}
+        // IMPORTANT!!!!!!!!!!! Please Read
+        
+        // I needed to tweak the values of some of the speed variables in order ofr the game to work on WebGL
+        // In Unity, I normally use the following:
+        // walkSpeed = 0.025;
+        // chargeSpeed = 0.02;
+        // fallSpeed = 0.015;
+        
+        // In WebGL, I use the values:
+        // walkSpeed = 0.125;
+        // chargeSpeed = 0.1;
+        // fallSpeed = 0.11;
         
         SamuraiCharge();
+
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.UpArrow) ||
+            Input.GetKey(KeyCode.DownArrow))
+        {
+            animator.gameObject.GetComponent<Animator>().enabled = true;
+            animator.SetBool("isAnimated", true);
+        }
+        if (!Input.GetKey(KeyCode.LeftArrow) && !Input.GetKey(KeyCode.RightArrow) && !Input.GetKey(KeyCode.UpArrow) &&
+            !Input.GetKey(KeyCode.DownArrow))
+        {
+            if (animator.GetBool("isSwinging") || animator.GetBool("isCharged"))
+            {
+                spriteRenderer.sprite = swingArray[0];
+                //animator.SetBool("isAnimated", true);
+            }
+            else
+            {
+                spriteRenderer.sprite = standing;
+                animator.gameObject.GetComponent<Animator>().enabled = false;
+            }
+        }
 
         if (!swingingSword)
         {
@@ -76,7 +104,6 @@ public class PlayerScript : MonoBehaviour {
                 if (Input.GetKey(KeyCode.LeftArrow)) {
                     if (xPos > leftWall) {
                         xPos -= speed;
-                        animator.SetBool("isAnimated", true);
                         
                         SamuraiCharge();
                         if (charging)
@@ -98,23 +125,13 @@ public class PlayerScript : MonoBehaviour {
                     transform.rotation = new Quaternion(0, 180, 0,0);
                     flipped = true;
                     SamuraiCharge();
-                    animator.SetBool("isAnimated", false);
-                    if (charging)
-                    {
-                        spriteRenderer.sprite = swingArray[0];
-                    }
-                    else
-                    {
-                        spriteRenderer.sprite = standing;
-                    }    
                 }
 
                 // move right
                 if (Input.GetKey(KeyCode.RightArrow)) {
                     if (xPos < rightWall) {
                         xPos += speed;
-                        animator.SetBool("isAnimated", true);
-                    
+
                         SamuraiCharge();
                         if (charging)
                         {
@@ -135,23 +152,13 @@ public class PlayerScript : MonoBehaviour {
                     transform.rotation = new Quaternion(0, 0, 0,0);
                     flipped = false;
                     SamuraiCharge();
-                    animator.SetBool("isAnimated", false);
-                    if (charging)
-                    {
-                        spriteRenderer.sprite = swingArray[0];
-                    }
-                    else
-                    {
-                        spriteRenderer.sprite = standing;
-                    }
                 }
             
                 // move down
                 if (Input.GetKey(KeyCode.DownArrow)) {
                     if (yPos > bottomWall) {
                         yPos -= speed;
-                        animator.SetBool("isAnimated", true);
-                    
+
                         SamuraiCharge();
                         if (charging)
                         {
@@ -166,23 +173,13 @@ public class PlayerScript : MonoBehaviour {
             
                 if (Input.GetKeyUp(KeyCode.DownArrow)) {
                     SamuraiCharge();
-                    animator.SetBool("isAnimated", false);
-                    if (charging)
-                    {
-                        spriteRenderer.sprite = swingArray[0];
-                    }
-                    else
-                    {
-                        spriteRenderer.sprite = standing;
-                    }
                 }
 
                 // move up
                 if (Input.GetKey(KeyCode.UpArrow)) {
                     if (yPos < topWall) {
                         yPos += speed;
-                        animator.SetBool("isAnimated", true);
-                    
+
                         SamuraiCharge();
                         if (charging)
                         {
@@ -197,37 +194,36 @@ public class PlayerScript : MonoBehaviour {
             
                 if (Input.GetKeyUp(KeyCode.UpArrow)) {
                     SamuraiCharge();
-                    animator.SetBool("isAnimated", false);
-                    if (charging)
-                    {
-                        spriteRenderer.sprite = swingArray[0];
-                    }
-                    else
-                    {
-                        spriteRenderer.sprite = standing;
-                    }
                 } 
                 
                 // swing the sword
                 if (Input.GetKeyDown(fireKey))
                 {
-                    animator.SetBool("isAnimated", false);
+                    spriteRenderer.sprite = swingArray[0];
+                    //animator.SetBool("isCharged", true);
+                    animator.SetBool("isSwinging", true);
                     
                     if (!Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKeyDown(KeyCode.RightArrow) &&
                         !Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKeyDown(KeyCode.UpArrow))
                     {
+                        //animator.gameObject.GetComponent<Animator>().enabled = false;
+                        animator.SetBool("isAnimated", false);
+                        animator.SetBool("isCharged", false);
                         spriteRenderer.sprite = swingArray[0];
                         swordFire = true;
                     }
                 }
-        
+                
                 if (Input.GetKeyUp(fireKey))
                 {
                     swingingSword = true;
-            
+                    animator.SetBool("isCharged", false);
+                    animator.SetBool("isSwinging", false);
+
                     if (!Input.GetKeyDown(KeyCode.LeftArrow) && !Input.GetKeyDown(KeyCode.RightArrow) &&
                         !Input.GetKeyDown(KeyCode.DownArrow) && !Input.GetKeyDown(KeyCode.UpArrow))
                     {
+                        animator.gameObject.GetComponent<Animator>().enabled = false;
                         swinging = true;
                         swingTime = Time.time;
                     }
@@ -235,17 +231,29 @@ public class PlayerScript : MonoBehaviour {
             }
         }
 
+        if (animator.GetBool("isAnimated") == false)
+        {
+            if (charging)
+            {
+                animator.SetBool("isSwinging", true);
+            }
+            else
+            {
+                animator.SetBool("isSwinging", false);
+            }
+        }
+
         SwingSword();
 
         if (charging)
         {
-            speed = 0.02f;
+            speed = chargeSpeed;
             boxCollider.size = new Vector2(1.8f,1.65f);
             boxCollider.offset = new Vector2(0.1f, 0.1f);
         }
         else
         {
-            speed = 0.025f;
+            speed = walkSpeed;
             boxCollider.size = new Vector2(1.4f,1.6f);
             boxCollider.offset = new Vector2(0.2f, 0.1f);
         }
@@ -324,6 +332,10 @@ public class PlayerScript : MonoBehaviour {
                 boxCollider.isTrigger = false;
                 swordCollider.enabled = false;
                 swordCollider.isTrigger = false;
+                
+                animator.gameObject.GetComponent<Animator>().enabled = true;
+                animator.SetBool("isCharged", false);
+                animator.SetBool("isSwinging", false);
                 swinging = false;
             }
         }
@@ -352,7 +364,7 @@ public class PlayerScript : MonoBehaviour {
                 spriteRenderer.sprite = dead;
                 ignoreInput = true;
                 // make player sprite fall
-                yPos -= 0.15f;
+                yPos -= fallSpeed;
             }
             else
             {

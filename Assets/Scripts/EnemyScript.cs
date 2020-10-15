@@ -357,11 +357,11 @@ public class EnemyScript : MonoBehaviour
     {
         if (GameManagerScript.endGame)
         {
-            rb.constraints = RigidbodyConstraints2D.FreezeAll;
-            canMove = false;
-            attacking = false;
-            if (!hasSword) sr.sprite = ninjaStand;
-            if (hasSword) sr.sprite = ninjaSwordStand;
+            this.gameObject.SetActive(false);
+            //canMove = false;
+            //attacking = false;
+            //if (!hasSword) sr.sprite = ninjaStand;
+            //if (hasSword) sr.sprite = ninjaSwordStand;
         }
     }
 

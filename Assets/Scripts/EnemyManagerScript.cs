@@ -34,7 +34,7 @@ public class EnemyManagerScript : MonoBehaviour {
         //    }
         //}
         
-        float rate = UnityEngine.Random.Range(0.5f, 3f);
+        float rate = UnityEngine.Random.Range(1.5f, 2.75f);
         InvokeRepeating("SpawnEnemies", 1.0f, rate);
     }
 

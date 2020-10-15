@@ -2740,7 +2740,7 @@ PrefabInstance:
     - target: {fileID: 2383120319681978089, guid: ef767e95305264743ad9545be6b3424b,
         type: 3}
       propertyPath: speed
-      value: 0.025
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2383120319681978089, guid: ef767e95305264743ad9545be6b3424b,
         type: 3}
@@ -2804,6 +2804,21 @@ PrefabInstance:
       propertyPath: animator
       value: 
       objectReference: {fileID: 313517426}
+    - target: {fileID: 2383120319681978089, guid: ef767e95305264743ad9545be6b3424b,
+        type: 3}
+      propertyPath: walkSpeed
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383120319681978089, guid: ef767e95305264743ad9545be6b3424b,
+        type: 3}
+      propertyPath: chargeSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2383120319681978089, guid: ef767e95305264743ad9545be6b3424b,
+        type: 3}
+      propertyPath: fallSpeed
+      value: 0.11
+      objectReference: {fileID: 0}
     - target: {fileID: 2383120319681978090, guid: ef767e95305264743ad9545be6b3424b,
         type: 3}
       propertyPath: m_Name
